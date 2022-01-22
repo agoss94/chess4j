@@ -1,0 +1,14 @@
+
+.board-label {
+	-fx-alignment: center ;
+    -fx-padding: 10 ;
+    -fx-font: 50px serif;
+}
+
+.tile-black {
+	-fx-background-color: darkgrey;
+}
+
+.tile-white {
+	-fx-background-color: gainsboro;
+}

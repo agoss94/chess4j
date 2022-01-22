@@ -47,15 +47,21 @@ public class BoardCenter extends GridPane {
 		add(new Label(String.valueOf(8)), 9, 1);
 
 		for (int i = 1; i < 9; i++) {
-			for(int j = 1; j<9; j++) {
-				add(new Tile(), i, j);
+			for (int j = 1; j < 9; j++) {
+				add(new Tile(i, j), i, j);
 			}
 		}
 	}
-	
+
 	private static class Tile extends Button {
-		
-		public Tile() {
+
+
+		public Tile(int i, int j) {
+			if ((i + j) % 2 == 0) {
+				getStyleClass().add("tile-black");
+			} else {
+				getStyleClass().add("tile-white");
+			}
 			setMaxSize(100, 100);
 			setMinSize(100, 100);
 		}
@@ -67,6 +73,8 @@ public class BoardCenter extends GridPane {
 			setText(text);
 			setMaxSize(100, 100);
 			setMinSize(100, 100);
+
+			getStyleClass().add("board-label");
 		}
 	}
 }
