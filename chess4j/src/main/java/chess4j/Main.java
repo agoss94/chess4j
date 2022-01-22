@@ -1,5 +1,11 @@
 package chess4j;
 
-public class Main {
+import chess4j.view.MainWindow;
+import javafx.application.Application;
 
+public class Main {
+	
+	public static void main(String[] args) {
+		Application.launch(MainWindow.class);
+	}
 }
