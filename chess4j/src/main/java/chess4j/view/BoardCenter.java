@@ -62,8 +62,8 @@ public class BoardCenter extends GridPane {
 			} else {
 				getStyleClass().add("tile-white");
 			}
-			setMaxSize(100, 100);
-			setMinSize(100, 100);
+			setMaxSize(80, 80);
+			setMinSize(80, 80);
 		}
 	}
 
@@ -71,8 +71,8 @@ public class BoardCenter extends GridPane {
 
 		public Label(String text) {
 			setText(text);
-			setMaxSize(100, 100);
-			setMinSize(100, 100);
+			setMaxSize(80, 80);
+			setMinSize(80, 80);
 
 			getStyleClass().add("board-label");
 		}

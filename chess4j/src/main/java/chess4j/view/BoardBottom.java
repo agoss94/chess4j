@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 public class BoardBottom extends Label {
 	
 	public BoardBottom() {
-		setPrefSize(1200, 100);
+		setPrefSize(1000, 100);
 	}
 
 }
