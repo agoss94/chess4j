@@ -15,8 +15,7 @@ public class MainWindow extends Application {
 	private BoardCenter center;
 	private BoardSide sideRight;
 	private BoardSide sideLeft;
-	private BoardRoof top;
-	private BoardRoof bottom;
+	private BoardBottom bottom;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -24,14 +23,12 @@ public class MainWindow extends Application {
 	    center = new BoardCenter();
 	    sideLeft = new BoardSide();
 	    sideRight = new BoardSide();
-	    top = new BoardRoof();
-	    bottom = new BoardRoof();
+	    bottom = new BoardBottom();
 		
 		primaryStage.setTitle("Chess for Java");
 		pane.setCenter(center);
 		pane.setLeft(sideLeft);
 		pane.setRight(sideRight);
-		pane.setTop(top);
 		pane.setBottom(bottom);
 		primaryStage.setScene(new Scene(pane, 1200, 1200));
 		primaryStage.getScene().getStylesheets().add(URL_SYTLE_SHEET.toExternalForm());

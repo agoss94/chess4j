@@ -2,9 +2,9 @@ package chess4j.view;
 
 import javafx.scene.control.Label;
 
-public class BoardRoof extends Label {
+public class BoardBottom extends Label {
 	
-	public BoardRoof() {
+	public BoardBottom() {
 		setPrefSize(1200, 100);
 	}
 
