@@ -18,6 +18,6 @@ public class King extends AbstractPiece implements Piece {
 	public boolean isValidMove(Position start, Position end) {
 		int dirX = end.getColumn() - start.getColumn();
 		int dirY = end.getRow() - start.getRow();
-		return (Math.abs(dirX) == 1 && Math.abs(dirY) == 1);
+		return Math.max(Math.abs(dirX), Math.abs(dirY)) <= 1 ;
 	}
 }
