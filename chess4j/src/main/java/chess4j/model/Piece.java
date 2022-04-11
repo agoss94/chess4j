@@ -34,18 +34,39 @@ public interface Piece {
 	 */
 	boolean isValidCapture(Position start, Position end);
 
+	/**
+	 * All types of chess pieces that can be placed on a board.
+	 */
 	enum Type {
 
+		/**
+		 * Type PAWN
+		 */
 		PAWN,
 
+		/**
+		 * Type ROOK
+		 */
 		ROOK,
 
+		/**
+		 * Type KNIGHT
+		 */
 		KNIGHT,
 
+		/**
+		 * Type BISHOP
+		 */
 		BISHOP,
 
+		/**
+		 * Type QUEEN
+		 */
 		QUEEN,
 
+		/**
+		 * Type KING
+		 */
 		KING;
 	}
 }
