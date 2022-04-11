@@ -2,7 +2,7 @@ package chess4j.model;
 
 public class King extends AbstractPiece implements Piece {
 
-	protected King(Color color) {
+	private King(Color color) {
 		super(Type.KING, color);
 	}
 
