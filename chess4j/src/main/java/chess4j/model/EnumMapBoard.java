@@ -1,6 +1,7 @@
 package chess4j.model;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -13,8 +14,11 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
 	private final Map<Position, Piece> board;
 
+	private final List<Move> moves;
+
 	public EnumMapBoard() {
 		board = new EnumMap<>(Position.class);
+		moves = new ArrayList<>();
 	}
 
 	@Override
@@ -25,14 +29,19 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
 	@Override
 	public Move move(Position start, Position end) throws IllegalMoveException {
-		// TODO Auto-generated method stub
+		//TODO
 		return null;
 	}
 
 	@Override
 	public List<Move> moves() {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.unmodifiableList(moves);
+	}
+
+	@Override
+	public void clear() {
+		moves.clear();
+		super.clear();
 	}
 
 	public Set<Position> path(Position start, Position end) {
