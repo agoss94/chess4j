@@ -3,7 +3,7 @@ package chess4j.model;
 public class Pawn extends AbstractPiece implements Piece {
 
 	private Pawn(Color color) {
-		super(Piece.Type.PAWN, color);
+		super(Type.PAWN, color);
 	}
 
 	public static Pawn white() {
