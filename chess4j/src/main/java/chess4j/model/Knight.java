@@ -16,8 +16,8 @@ public class Knight extends AbstractPiece implements Piece {
 
 	@Override
 	public boolean isValidMove(Position start, Position end) {
-		int dirX = end.getColumn() - start.getColumn();
-		int dirY = end.getRow() - start.getRow();
-		return (Math.abs(dirX) == 2 && Math.abs(dirY) == 1) || (Math.abs(dirX) == 1 && Math.abs(dirY) == 2);
+		int deltaColumn = end.getColumn() - start.getColumn();
+		int deltaRow = end.getRow() - start.getRow();
+		return (Math.abs(deltaColumn) == 2 && Math.abs(deltaRow) == 1) || (Math.abs(deltaColumn) == 1 && Math.abs(deltaRow) == 2);
 	}
 }

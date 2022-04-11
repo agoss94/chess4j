@@ -16,17 +16,17 @@ public class Pawn extends AbstractPiece implements Piece {
 
 	@Override
 	public boolean isValidMove(Position start, Position end) {
-		int dirX = end.getColumn() - start.getColumn();
-		int dirY = end.getRow() - start.getRow();
-		int direction = getColor() == Color.WHITE ? 1 : -1;
-		return dirX == 0 && dirY == 1 * direction;
+		int deltaX = end.getColumn() - start.getColumn();
+		int deltaY = end.getRow() - start.getRow();
+		int dirY = getColor() == Color.WHITE ? 1 : -1;
+		return deltaX == 0 && deltaY == 1 * dirY;
 	}
 
 	@Override
 	public boolean isValidCapture(Position start, Position end) {
-		int dirX = end.getColumn() - start.getColumn();
-		int dirY = end.getRow() - start.getRow();
-		int direction = getColor() == Color.WHITE ? 1 : -1;
-		return dirX == Math.abs(1) && dirY == 1 * direction;
+		int deltaColumn = end.getColumn() - start.getColumn();
+		int deltaRow = end.getRow() - start.getRow();
+		int dirRow = getColor() == Color.WHITE ? 1 : -1;
+		return deltaColumn == Math.abs(1) && deltaRow == 1 * dirRow;
 	}
 }
