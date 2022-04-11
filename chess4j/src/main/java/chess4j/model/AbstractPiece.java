@@ -6,7 +6,7 @@ public abstract class AbstractPiece implements Piece {
 
 	private final Color color;
 
-	public AbstractPiece(Type type, Color color) {
+	protected AbstractPiece(Type type, Color color) {
 		super();
 		this.type = type;
 		this.color = color;
