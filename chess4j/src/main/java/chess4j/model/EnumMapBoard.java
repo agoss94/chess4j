@@ -12,79 +12,79 @@ import java.util.Set;
 
 public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board {
 
-	private final Map<Position, Piece> board;
+    private final Map<Position, Piece> board;
 
-	private final List<Move> moves;
+    private final List<Move> moves;
 
-	public EnumMapBoard() {
-		board = new EnumMap<>(Position.class);
-		moves = new ArrayList<>();
-	}
+    public EnumMapBoard() {
+        board = new EnumMap<>(Position.class);
+        moves = new ArrayList<>();
+    }
 
-	@Override
-	public Piece put(Position key, Piece value) {
-		Objects.requireNonNull(key);
-		return board.put(key, value);
-	}
+    @Override
+    public Piece put(Position key, Piece value) {
+        Objects.requireNonNull(key);
+        return board.put(key, value);
+    }
 
-	@Override
-	public Move move(Position start, Position end) throws IllegalMoveException {
-		// TODO
-		return null;
-	}
+    @Override
+    public Move move(Position start, Position end) throws IllegalMoveException {
+        // TODO
+        return null;
+    }
 
-	@Override
-	public boolean isValid(Position start, Position end) {
-		Objects.requireNonNull(start);
-		Objects.requireNonNull(end);
-		if (containsKey(start)) {
-			Piece startPiece = get(start);
-			// Check if the move in principle is possible
-			boolean firstCondition = startPiece.isValid(start, end);
-			// The path of the piece must be completely clear
-			boolean secondCondition = path(start, end).stream().noneMatch(this::containsKey);
-			// The piece placed on the end Position must have a different color than the start piece.
-			Piece endPiece = get(end);
-			boolean thirdCondition = endPiece == null ? true : endPiece.getColor() != startPiece.getColor();
+    @Override
+    public boolean isValid(Position start, Position end) {
+        Objects.requireNonNull(start);
+        Objects.requireNonNull(end);
+        if (containsKey(start)) {
+            Piece startPiece = get(start);
+            // Check if the move in principle is possible
+            boolean firstCondition = startPiece.isValid(start, end);
+            // The path of the piece must be completely clear
+            boolean secondCondition = path(start, end).stream().noneMatch(this::containsKey);
+            // The piece placed on the end Position must have a different color than the start piece.
+            Piece endPiece = get(end);
+            boolean thirdCondition = endPiece == null ? true : endPiece.getColor() != startPiece.getColor();
 
-			//All Conditions must be meet
-			return firstCondition && secondCondition && thirdCondition;
-		} else {
-			return false;
-		}
-	}
+            //All Conditions must be meet
+            return firstCondition && secondCondition && thirdCondition;
+        } else {
+            return false;
+        }
+    }
 
-	@Override
-	public List<Move> moves() {
-		return Collections.unmodifiableList(moves);
-	}
+    @Override
+    public List<Move> moves() {
+        return Collections.unmodifiableList(moves);
+    }
 
-	@Override
-	public void clear() {
-		moves.clear();
-		super.clear();
-	}
+    @Override
+    public void clear() {
+        moves.clear();
+        super.clear();
+    }
 
-	public Set<Position> path(Position start, Position end) {
-		int deltaColumn = end.getColumn() - start.getColumn();
-		int deltaRow = end.getRow() - start.getRow();
-		boolean isLine = Math.abs(deltaColumn) == Math.abs(deltaRow) || deltaColumn == 0 || deltaRow == 0;
-		if (isLine) {
-			int length = Math.max(Math.abs(deltaColumn), Math.abs(deltaRow));
-			int dirColumn = Integer.signum(deltaColumn);
-			int dirRow = Integer.signum(deltaRow);
-			Set<Position> path = EnumSet.noneOf(Position.class);
-			for (int i = 1; i < length; i++) {
-				path.add(Position.valueOf(start.getRow() + i * dirRow, start.getColumn() + i * dirColumn));
-			}
-			return path;
-		} else {
-			return Collections.emptySet();
-		}
-	}
+    public Set<Position> path(Position start, Position end) {
+        int deltaColumn = end.getColumn() - start.getColumn();
+        int deltaRow = end.getRow() - start.getRow();
+        boolean isLine = Math.abs(deltaColumn) == Math.abs(deltaRow) || deltaColumn == 0 || deltaRow == 0;
+        if (isLine) {
+            int length = Math.max(Math.abs(deltaColumn), Math.abs(deltaRow));
+            int dirColumn = Integer.signum(deltaColumn);
+            int dirRow = Integer.signum(deltaRow);
+            Set<Position> path = EnumSet.noneOf(Position.class);
+            for (int i = 1; i < length; i++) {
+                path.add(Position.valueOf(start.getRow() + i * dirRow, start.getColumn() + i * dirColumn));
+            }
+            return path;
+        } else {
+            return Collections.emptySet();
+        }
+    }
 
-	@Override
-	public Set<Entry<Position, Piece>> entrySet() {
-		return board.entrySet();
-	}
+    @Override
+    public Set<Entry<Position, Piece>> entrySet() {
+        return board.entrySet();
+    }
 }
