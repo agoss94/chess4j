@@ -12,26 +12,26 @@ public class BishopTest {
 
 	@Test
 	void whiteBishopMoveUpRight() {
-		Piece pawn = Bishop.white();
-		assertEquals(true , pawn.isValid(Position.d4, Position.g7));
+		Piece pawnBishop = Bishop.white();
+		assertEquals(true , pawnBishop.isValid(Position.d4, Position.g7));
 	}
 
 	@Test
 	void whiteBishopMoveUpLeft() {
-		Piece pawn = Bishop.white();
-		assertEquals(true , pawn.isValid(Position.d4, Position.b6));
+		Piece pawnBishop = Bishop.white();
+		assertEquals(true , pawnBishop.isValid(Position.d4, Position.b6));
 	}
 
 	@Test
 	void whiteBishopMoveDownRight() {
-		Piece pawn = Bishop.white();
-		assertEquals(true , pawn.isValid(Position.d4, Position.g1));
+		Piece pawnBishop = Bishop.white();
+		assertEquals(true , pawnBishop.isValid(Position.d4, Position.g1));
 	}
 
 	@Test
 	void whiteBishopMovDownLeft() {
-		Piece pawn = Bishop.white();
-		assertEquals(true , pawn.isValid(Position.d4, Position.c3));
+		Piece pawnBishop = Bishop.white();
+		assertEquals(true , pawnBishop.isValid(Position.d4, Position.c3));
 	}
 
 }
