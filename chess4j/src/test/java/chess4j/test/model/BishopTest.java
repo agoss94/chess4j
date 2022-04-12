@@ -11,27 +11,27 @@ import chess4j.model.Position;
 public class BishopTest {
 
 	@Test
-	void whiteBishopMoveUpRight() {
-		Piece pawnBishop = Bishop.white();
-		assertEquals(true , pawnBishop.isValid(Position.d4, Position.g7));
+	void upRight() {
+		Piece bishop = Bishop.white();
+		assertEquals(true , bishop.isValid(Position.d4, Position.g7));
 	}
 
 	@Test
-	void whiteBishopMoveUpLeft() {
-		Piece pawnBishop = Bishop.white();
-		assertEquals(true , pawnBishop.isValid(Position.d4, Position.b6));
+	void upLeft() {
+		Piece bishop = Bishop.white();
+		assertEquals(true , bishop.isValid(Position.d4, Position.b6));
 	}
 
 	@Test
-	void whiteBishopMoveDownRight() {
-		Piece pawnBishop = Bishop.white();
-		assertEquals(true , pawnBishop.isValid(Position.d4, Position.g1));
+	void downRight() {
+		Piece bishop = Bishop.white();
+		assertEquals(true , bishop.isValid(Position.d4, Position.g1));
 	}
 
 	@Test
-	void whiteBishopMovDownLeft() {
-		Piece pawnBishop = Bishop.white();
-		assertEquals(true , pawnBishop.isValid(Position.d4, Position.c3));
+	void downLeft() {
+		Piece bishop = Bishop.white();
+		assertEquals(true , bishop.isValid(Position.d4, Position.c3));
 	}
 
 }
