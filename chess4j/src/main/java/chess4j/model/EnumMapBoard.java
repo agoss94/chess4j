@@ -38,11 +38,9 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 		Objects.requireNonNull(start);
 		Objects.requireNonNull(end);
 		if (containsKey(start)) {
-
 			Piece startPiece = get(start);
 			// Check if the move in principle is possible
-			boolean firstCondition = containsKey(end) ? startPiece.isValidCapture(start, end)
-					: startPiece.isValidMove(start, end);
+			boolean firstCondition = startPiece.isValid(start, end);
 			// The path of the piece must be completely clear
 			boolean secondCondition = path(start, end).stream().noneMatch(this::containsKey);
 			// The piece placed on the end Position must have a different color than the start piece.

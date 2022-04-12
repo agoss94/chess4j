@@ -15,7 +15,7 @@ public class Rook extends AbstractPiece implements Piece {
 	}
 
 	@Override
-	public boolean isValidMove(Position start, Position end) {
+	public boolean isValid(Position start, Position end) {
 		int dirX = end.getColumn() - start.getColumn();
 		int dirY = end.getRow() - start.getRow();
 		return Math.abs(dirX) == 0 || Math.abs(dirY) == 0;

@@ -21,9 +21,4 @@ public abstract class AbstractPiece implements Piece {
 	public Color getColor() {
 		return color;
 	}
-
-	@Override
-	public boolean isValidCapture(Position start, Position end) {
-		return isValidMove(start, end);
-	}
 }

@@ -15,7 +15,7 @@ public class Bishop extends AbstractPiece implements Piece {
 	}
 
 	@Override
-	public boolean isValidMove(Position start, Position end) {
+	public boolean isValid(Position start, Position end) {
 		int deltaColumn = end.getColumn() - start.getColumn();
 		int deltaRow = end.getRow() - start.getRow();
 		return Math.abs(deltaColumn) == Math.abs(deltaRow);

@@ -15,7 +15,7 @@ public class King extends AbstractPiece implements Piece {
 	}
 
 	@Override
-	public boolean isValidMove(Position start, Position end) {
+	public boolean isValid(Position start, Position end) {
 		int deltaColumn = end.getColumn() - start.getColumn();
 		int deltaRow = end.getRow() - start.getRow();
 		return Math.max(Math.abs(deltaColumn), Math.abs(deltaRow)) <= 1 ;

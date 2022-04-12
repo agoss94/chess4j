@@ -29,9 +29,9 @@ public enum Position {
 
 	private final int column;
 
-	Position(int row, int column) {
-		this.row = row;
+	Position(int column, int row) {
 		this.column = column;
+		this.row = row;
 	}
 
 	public static Position valueOf(int row, int column) {
