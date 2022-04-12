@@ -1,11 +1,15 @@
 package chess4j.controller;
 
+import java.util.Collections;
+import java.util.Map;
+
 import chess4j.model.Bishop;
 import chess4j.model.Board;
 import chess4j.model.EnumMapBoard;
 import chess4j.model.King;
 import chess4j.model.Knight;
 import chess4j.model.Pawn;
+import chess4j.model.Piece;
 import chess4j.model.Position;
 import chess4j.model.Queen;
 import chess4j.model.Rook;
@@ -16,6 +20,7 @@ public class Controller {
 
     public Controller() {
         board = new EnumMapBoard();
+        newGame();
     }
 
     public void newGame() {
@@ -62,5 +67,9 @@ public class Controller {
         board.put(Position.f7, Pawn.black());
         board.put(Position.g7, Pawn.black());
         board.put(Position.h7, Pawn.black());
+    }
+
+    public Map<Position, Piece> getView() {
+        return Collections.unmodifiableMap(board);
     }
 }
