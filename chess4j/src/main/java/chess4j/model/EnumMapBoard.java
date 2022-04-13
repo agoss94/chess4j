@@ -34,6 +34,10 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
             Move m = new SimpleMove(this, start, end);
             moves.add(m);
             return m;
+        } else if (PawnMove.isLegal(this, start, end)) {
+            Move m = new PawnMove(this, start, end);
+            moves.add(m);
+            return m;
         } else {
             throw new IllegalMoveException();
         }
@@ -41,7 +45,7 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
     @Override
     public boolean isValid(Position start, Position end) {
-        return SimpleMove.isLegal(this, start, end);
+        return SimpleMove.isLegal(this, start, end) || PawnMove.isLegal(this, start, end);
     }
 
     @Override
@@ -78,7 +82,7 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         return board.entrySet();
     }
 
-    public static class SimpleMove implements Move {
+    public static abstract class AbstractMove implements Move {
 
         private final Position start;
 
@@ -88,14 +92,15 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
         private final Optional<Piece> capturedPiece;
 
-        private SimpleMove(Board board,  Position start, Position end) {
-            if(!isLegal(board, start, end)) {
-                throw new IllegalStateException();
-            }
+        protected AbstractMove(Board board, Position start, Position end) {
             this.start = Objects.requireNonNull(start);
             this.end = Objects.requireNonNull(end);
-            this.movedPiece = Objects.requireNonNull(board.remove(start));
-            this.capturedPiece = Optional.ofNullable(board.put(end, movedPiece));
+            if (!isLegal(board)) {
+                throw new IllegalMoveException();
+            } else {
+                this.movedPiece = Objects.requireNonNull(board.remove(start));
+                this.capturedPiece = Optional.ofNullable(board.put(end, movedPiece));
+            }
         }
 
         @Override
@@ -116,6 +121,13 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         @Override
         public Optional<Piece> capturedPiece() {
             return capturedPiece;
+        }
+    }
+
+    public static class SimpleMove extends AbstractMove implements Move {
+
+        private SimpleMove(Board board, Position start, Position end) {
+            super(board, start, end);
         }
 
         public static boolean isLegal(Board board, Position start, Position end) {
@@ -138,6 +150,66 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
             } else {
                 return false;
             }
+        }
+
+        @Override
+        public boolean isLegal(Board board) {
+            return isLegal(board, start(), end());
+        }
+
+        @Override
+        public void revert(Board board) throws IllegalStateException {
+            throw new RuntimeException("Not implemented");
+        }
+    }
+
+    public static class PawnMove extends AbstractMove implements Move {
+
+        private PawnMove(Board board, Position start, Position end) {
+            super(board, start, end);
+        }
+
+        public static boolean isLegal(Board board, Position start, Position end) {
+            Objects.requireNonNull(start);
+            Objects.requireNonNull(end);
+            Objects.requireNonNull(board);
+            if (board.containsKey(start)) {
+                Piece startPiece = board.get(start);
+                Piece endPiece = board.get(end);
+
+                boolean firstCondition;
+                if (endPiece == null) {
+                    int deltaColumn = end.getColumn() - start.getColumn();
+                    int deltaRow = end.getRow() - start.getRow();
+                    int dirRow = startPiece.getColor() == Color.WHITE ? 1 : -1;
+                    firstCondition = deltaColumn == 0 && deltaRow == 1 * dirRow;
+
+                    // If the first condition is false we could have a PawnLeap
+                    if (firstCondition == false) {
+                        firstCondition = deltaColumn == 0 && deltaRow == 2 * dirRow
+                                && board.moves().stream().map(Move::movedPiece).noneMatch(p -> startPiece == p);
+                    }
+                } else {
+                    int deltaColumn = end.getColumn() - start.getColumn();
+                    int deltaRow = end.getRow() - start.getRow();
+                    int dirRow = startPiece.getColor() == Color.WHITE ? 1 : -1;
+                    firstCondition = Math.abs(deltaColumn) == 1 && deltaRow == 1 * dirRow;
+                }
+
+                // The path of the piece must be completely clear
+                boolean secondCondition = path(start, end).stream().noneMatch(board::containsKey);
+                // start piece.
+                boolean thirdCondition = endPiece == null ? true : endPiece.getColor() != startPiece.getColor();
+
+                return firstCondition && secondCondition && thirdCondition;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public boolean isLegal(Board board) {
+            return isLegal(board, start(), end());
         }
 
         @Override

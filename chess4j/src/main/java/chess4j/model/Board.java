@@ -71,6 +71,11 @@ public interface Board extends Map<Position, Piece> {
         Optional<Piece> capturedPiece();
 
         /**
+         * Method determines if the current move is legal on the given board.
+         */
+        boolean isLegal(Board board);
+
+        /**
          * Reverts the move on the given board. The move can only be reverted if this
          * move was the last performed on the board otherwise an exception is thrown.
          *

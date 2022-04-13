@@ -5,6 +5,7 @@ import java.util.Map;
 
 import chess4j.model.Bishop;
 import chess4j.model.Board;
+import chess4j.model.Color;
 import chess4j.model.EnumMapBoard;
 import chess4j.model.IllegalMoveException;
 import chess4j.model.King;
@@ -21,9 +22,12 @@ public class Controller {
 
     private Position input;
 
+    private Color playersTurn;
+
     public Controller() {
         board = new EnumMapBoard();
         newGame();
+        playersTurn = Color.WHITE;
     }
 
     public void newGame() {
@@ -70,14 +74,20 @@ public class Controller {
         board.put(Position.f7, Pawn.black());
         board.put(Position.g7, Pawn.black());
         board.put(Position.h7, Pawn.black());
+
+        playersTurn = Color.WHITE;
     }
 
     public void processInput(Position p) {
         if(input == null) {
-            input = p;
+            Piece piece = board.get(p);
+            if(piece != null && piece.getColor() == playersTurn) {
+                input = p;
+            }
         } else {
             try {
                 board.move(input, p);
+                playersTurn = playersTurn.switchColor();
             } catch (IllegalMoveException e) {
                 System.err.println("Illegal input");
             }
