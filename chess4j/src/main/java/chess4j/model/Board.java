@@ -71,14 +71,6 @@ public interface Board extends Map<Position, Piece> {
         Optional<Piece> capturedPiece();
 
         /**
-         * Performs the move on the given board.
-         *
-         * @param board the board on which the move is performed
-         * @throws IllegalStateException
-         */
-        void perform(Board board) throws IllegalStateException;
-
-        /**
          * Reverts the move on the given board. The move can only be reverted if this
          * move was the last performed on the board otherwise an exception is thrown.
          *

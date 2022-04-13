@@ -105,6 +105,13 @@ public class MainWindow extends Application {
                 buttons[i - 1][j - 1] = b;
             }
         }
+        for(Position position : Position.values()) {
+            Button b = getTile(position);
+            b.setOnAction(e -> {
+                controller.processInput(position);
+                updateBoard();
+            });
+        }
     }
 
     private Label createLabel(String text) {
@@ -130,12 +137,16 @@ public class MainWindow extends Application {
 
     private void updateBoard() {
         Map<Position, Piece> board = controller.getView();
-        for (Position pos : board.keySet()) {
+        for (Position pos : Position.values()) {
             Button b = getTile(pos);
-            Piece piece = board.get(pos);
-            Image image = new Image(getClass().getResource(getPieceIcon(piece)).toExternalForm(), 80, 80, true, true);
-            ImageView view = new ImageView(image);
-            b.setGraphic(view);
+            if(board.containsKey(pos)) {
+                Piece piece = board.get(pos);
+                Image image = new Image(getClass().getResource(getPieceIcon(piece)).toExternalForm(), 80, 80, true, true);
+                ImageView view = new ImageView(image);
+                b.setGraphic(view);
+            } else {
+                b.setGraphic(null);
+            }
         }
     }
 
