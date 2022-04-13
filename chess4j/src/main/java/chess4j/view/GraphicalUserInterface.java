@@ -1,6 +1,5 @@
 package chess4j.view;
 
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Map;
 import java.util.function.Function;
@@ -12,12 +11,16 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class MainWindow extends Application {
+public class GraphicalUserInterface extends Application {
 
     /**
      * Location of the used stylesheet
@@ -41,8 +44,7 @@ public class MainWindow extends Application {
 
     private Function<Position, Position> transformation;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public GraphicalUserInterface() {
         controller = new Controller();
         buttons = new Button[8][8];
         transformation = p -> Position.valueOf(8 - p.getRow() + 1, p.getColumn());
@@ -51,13 +53,9 @@ public class MainWindow extends Application {
         pane = new GridPane();
         setupPane();
         updateBoard();
-        primaryStage.setTitle("Chess for Java");
-        primaryStage.setScene(new Scene(pane, 800, 800));
-        primaryStage.getScene().getStylesheets().add(URL_SYTLE_SHEET.toExternalForm());
-        primaryStage.show();
     }
 
-    private void setupPane() throws FileNotFoundException {
+    private void setupPane() {
         // Columns at top
         pane.add(createLabel("A"), 1, 0);
         pane.add(createLabel("B"), 2, 0);
@@ -112,6 +110,30 @@ public class MainWindow extends Application {
                 updateBoard();
             });
         }
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        BorderPane borderPane = new BorderPane();
+        primaryStage.setTitle("Chess for Java");
+        primaryStage.setScene(new Scene(borderPane, 800, 850));
+        primaryStage.getScene().getStylesheets().add(URL_SYTLE_SHEET.toExternalForm());
+
+        borderPane.setCenter(pane);
+
+      //Create Menu
+        MenuBar menuBar = new MenuBar();
+        Menu menuGame = new Menu("Game");
+        MenuItem newGame = new MenuItem("New Game");
+        newGame.setOnAction(e -> {
+            controller.newGame();
+            updateBoard();
+        });
+        menuBar.getMenus().add(menuGame);
+        menuGame.getItems().add(newGame);
+        borderPane.setTop(menuBar);
+
+        primaryStage.show();
     }
 
     private Label createLabel(String text) {

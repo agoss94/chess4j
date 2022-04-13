@@ -8,17 +8,17 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
-import chess4j.view.MainWindow;
+import chess4j.view.GraphicalUserInterface;
 import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
 class StartApplicationTest {
 	
-	private MainWindow ui;
+	private GraphicalUserInterface ui;
 
 	@Start
 	private void start(Stage stage) throws Exception {
-	    ui = new MainWindow();
+	    ui = new GraphicalUserInterface();
 		ui.start(stage);
 	}
 
