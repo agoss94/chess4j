@@ -2,7 +2,6 @@ package chess4j.model;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +40,9 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
     @Override
     public Move move(Position start, Position end) throws IllegalMoveException {
-        if (SimpleMove.isLegal(this, start, end)) {
-            Move m = new SimpleMove(this, start, end);
-            moves.add(m);
-            return m;
-        } else if (PawnMove.isLegal(this, start, end)) {
-            Move m = new PawnMove(this, start, end);
+        if (isValid(start, end)) {
+            Move m = createMove(start, end);
+            m.perform(this);
             moves.add(m);
             return m;
         } else {
@@ -56,12 +52,23 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
     @Override
     public boolean isValid(Position start, Position end) {
-        return SimpleMove.isLegal(this, start, end) || PawnMove.isLegal(this, start, end);
+        boolean isPrincipalyLegal = SimpleMove.isLegal(this, start, end) || PawnMove.isLegal(this, start, end);
+        return isPrincipalyLegal;
+    }
+
+    private Move createMove(Position start, Position end) {
+        if(SimpleMove.isLegal(this, start, end)) {
+            return new SimpleMove(this, start, end);
+        } else if(PawnMove.isLegal(this, start, end)) {
+            return new PawnMove(this, start, end);
+        } else {
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public List<Move> moves() {
-        return Collections.unmodifiableList(moves);
+        return moves;
     }
 
     @Override
@@ -136,18 +143,24 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
         @Override
         public void perform(Board board) throws IllegalStateException {
-            // TODO Auto-generated method stub
-
+            if(isLegal(board, start, end) && board.containsKey(end) == capturedPiece.isPresent()) {
+                board.put(end, movedPiece);
+            } else {
+                throw new IllegalStateException();
+            }
         }
 
         @Override
         public void revert(Board board) throws IllegalStateException {
-            throw new RuntimeException("Not implemented");
+             List<Move> allMoves = board.moves();
+             if(!allMoves.isEmpty() && this == allMoves.get(allMoves.size())) {
+                 board.put(start, movedPiece);
+                 capturedPiece.ifPresent(p -> board.put(end, p));
+             }
         }
     }
 
     public static class PawnMove implements Move {
-
 
         private final Position start;
 
@@ -224,12 +237,20 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
         @Override
         public void perform(Board board) throws IllegalStateException {
-            // TODO Auto-generated method stub
+            if(isLegal(board, start, end) && board.containsKey(end) == capturedPiece.isPresent()) {
+                board.put(end, movedPiece);
+            } else {
+                throw new IllegalStateException();
+            }
         }
 
         @Override
         public void revert(Board board) throws IllegalStateException {
-            throw new RuntimeException("Not implemented");
+             List<Move> allMoves = board.moves();
+             if(!allMoves.isEmpty() && this == allMoves.get(allMoves.size())) {
+                 board.put(start, movedPiece);
+                 capturedPiece.ifPresent(p -> board.put(end, p));
+             }
         }
     }
 }
