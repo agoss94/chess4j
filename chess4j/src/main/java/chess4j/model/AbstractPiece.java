@@ -1,5 +1,8 @@
 package chess4j.model;
 
+/**
+ * Abstract Base class for all Pieces. The class provides getter for the type and color of any piece.
+ */
 public abstract class AbstractPiece implements Piece {
 
     private final Type type;

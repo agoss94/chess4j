@@ -4,19 +4,30 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Simple {@link EnumMap} implementation of the Board interface.
+ */
 public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board {
 
+    /**
+     * The implementation of this Board is backed by an {@link EnumMap}
+     */
     private final Map<Position, Piece> board;
 
+    /**
+     * All moves are stored in a list.
+     */
     private final List<Move> moves;
 
+    /**
+     * Constructor initializes all fields
+     */
     public EnumMapBoard() {
         board = new EnumMap<>(Position.class);
         moves = new ArrayList<>();
@@ -59,30 +70,12 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         super.clear();
     }
 
-    public static Set<Position> path(Position start, Position end) {
-        int deltaColumn = end.getColumn() - start.getColumn();
-        int deltaRow = end.getRow() - start.getRow();
-        boolean isLine = Math.abs(deltaColumn) == Math.abs(deltaRow) || deltaColumn == 0 || deltaRow == 0;
-        if (isLine) {
-            int length = Math.max(Math.abs(deltaColumn), Math.abs(deltaRow));
-            int dirColumn = Integer.signum(deltaColumn);
-            int dirRow = Integer.signum(deltaRow);
-            Set<Position> path = EnumSet.noneOf(Position.class);
-            for (int i = 1; i < length; i++) {
-                path.add(Position.valueOf(start.getRow() + i * dirRow, start.getColumn() + i * dirColumn));
-            }
-            return path;
-        } else {
-            return Collections.emptySet();
-        }
-    }
-
     @Override
     public Set<Entry<Position, Piece>> entrySet() {
         return board.entrySet();
     }
 
-    public static abstract class AbstractMove implements Move {
+    public static class SimpleMove implements Move {
 
         private final Position start;
 
@@ -92,15 +85,11 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
 
         private final Optional<Piece> capturedPiece;
 
-        protected AbstractMove(Board board, Position start, Position end) {
+        protected SimpleMove(Board board, Position start, Position end) {
             this.start = Objects.requireNonNull(start);
             this.end = Objects.requireNonNull(end);
-            if (!isLegal(board)) {
-                throw new IllegalMoveException();
-            } else {
-                this.movedPiece = Objects.requireNonNull(board.remove(start));
-                this.capturedPiece = Optional.ofNullable(board.put(end, movedPiece));
-            }
+            this.movedPiece = Objects.requireNonNull(board.remove(start));
+            this.capturedPiece = Optional.ofNullable(board.put(end, movedPiece));
         }
 
         @Override
@@ -122,13 +111,6 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         public Optional<Piece> capturedPiece() {
             return capturedPiece;
         }
-    }
-
-    public static class SimpleMove extends AbstractMove implements Move {
-
-        private SimpleMove(Board board, Position start, Position end) {
-            super(board, start, end);
-        }
 
         public static boolean isLegal(Board board, Position start, Position end) {
             Objects.requireNonNull(start);
@@ -139,7 +121,7 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
                 // Check if the move in principle is possible
                 boolean firstCondition = startPiece.isValid(start, end);
                 // The path of the piece must be completely clear
-                boolean secondCondition = path(start, end).stream().noneMatch(board::containsKey);
+                boolean secondCondition = Position.path(start, end).stream().noneMatch(board::containsKey);
                 // The piece placed on the end Position must have a different color than the
                 // start piece.
                 Piece endPiece = board.get(end);
@@ -153,8 +135,9 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         }
 
         @Override
-        public boolean isLegal(Board board) {
-            return isLegal(board, start(), end());
+        public void perform(Board board) throws IllegalStateException {
+            // TODO Auto-generated method stub
+
         }
 
         @Override
@@ -163,10 +146,42 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         }
     }
 
-    public static class PawnMove extends AbstractMove implements Move {
+    public static class PawnMove implements Move {
 
-        private PawnMove(Board board, Position start, Position end) {
-            super(board, start, end);
+
+        private final Position start;
+
+        private final Position end;
+
+        private final Piece movedPiece;
+
+        private final Optional<Piece> capturedPiece;
+
+        protected PawnMove(Board board, Position start, Position end) {
+            this.start = Objects.requireNonNull(start);
+            this.end = Objects.requireNonNull(end);
+            this.movedPiece = Objects.requireNonNull(board.remove(start));
+            this.capturedPiece = Optional.ofNullable(board.put(end, movedPiece));
+        }
+
+        @Override
+        public Position start() {
+            return start;
+        }
+
+        @Override
+        public Position end() {
+            return end;
+        }
+
+        @Override
+        public Piece movedPiece() {
+            return movedPiece;
+        }
+
+        @Override
+        public Optional<Piece> capturedPiece() {
+            return capturedPiece;
         }
 
         public static boolean isLegal(Board board, Position start, Position end) {
@@ -197,7 +212,7 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
                 }
 
                 // The path of the piece must be completely clear
-                boolean secondCondition = path(start, end).stream().noneMatch(board::containsKey);
+                boolean secondCondition = Position.path(start, end).stream().noneMatch(board::containsKey);
                 // start piece.
                 boolean thirdCondition = endPiece == null ? true : endPiece.getColor() != startPiece.getColor();
 
@@ -208,8 +223,8 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         }
 
         @Override
-        public boolean isLegal(Board board) {
-            return isLegal(board, start(), end());
+        public void perform(Board board) throws IllegalStateException {
+            // TODO Auto-generated method stub
         }
 
         @Override

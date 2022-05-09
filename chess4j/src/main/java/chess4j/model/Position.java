@@ -1,5 +1,6 @@
 package chess4j.model;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -44,5 +45,23 @@ public enum Position {
 
     public int getColumn() {
         return column;
+    }
+
+    public static Set<Position> path(Position start, Position end) {
+        int deltaColumn = end.getColumn() - start.getColumn();
+        int deltaRow = end.getRow() - start.getRow();
+        boolean isLine = Math.abs(deltaColumn) == Math.abs(deltaRow) || deltaColumn == 0 || deltaRow == 0;
+        if (isLine) {
+            int length = Math.max(Math.abs(deltaColumn), Math.abs(deltaRow));
+            int dirColumn = Integer.signum(deltaColumn);
+            int dirRow = Integer.signum(deltaRow);
+            Set<Position> path = EnumSet.noneOf(Position.class);
+            for (int i = 1; i < length; i++) {
+                path.add(Position.valueOf(start.getRow() + i * dirRow, start.getColumn() + i * dirColumn));
+            }
+            return path;
+        } else {
+            return Collections.emptySet();
+        }
     }
 }
