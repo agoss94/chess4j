@@ -95,8 +95,8 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         protected SimpleMove(Board board, Position start, Position end) {
             this.start = Objects.requireNonNull(start);
             this.end = Objects.requireNonNull(end);
-            this.movedPiece = Objects.requireNonNull(board.remove(start));
-            this.capturedPiece = Optional.ofNullable(board.put(end, movedPiece));
+            this.movedPiece = Objects.requireNonNull(board.get(start));
+            this.capturedPiece = Optional.ofNullable(board.get(end));
         }
 
         @Override
@@ -144,7 +144,7 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         @Override
         public void perform(Board board) throws IllegalStateException {
             if(isLegal(board, start, end) && board.containsKey(end) == capturedPiece.isPresent()) {
-                board.put(end, movedPiece);
+                board.put(end, board.remove(start));
             } else {
                 throw new IllegalStateException();
             }
@@ -173,8 +173,8 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         protected PawnMove(Board board, Position start, Position end) {
             this.start = Objects.requireNonNull(start);
             this.end = Objects.requireNonNull(end);
-            this.movedPiece = Objects.requireNonNull(board.remove(start));
-            this.capturedPiece = Optional.ofNullable(board.put(end, movedPiece));
+            this.movedPiece = Objects.requireNonNull(board.get(start));
+            this.capturedPiece = Optional.ofNullable(board.get(end));
         }
 
         @Override
@@ -238,7 +238,7 @@ public class EnumMapBoard extends AbstractMap<Position, Piece> implements Board 
         @Override
         public void perform(Board board) throws IllegalStateException {
             if(isLegal(board, start, end) && board.containsKey(end) == capturedPiece.isPresent()) {
-                board.put(end, movedPiece);
+                board.put(end, board.remove(start));
             } else {
                 throw new IllegalStateException();
             }
