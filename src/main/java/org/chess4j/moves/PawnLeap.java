@@ -23,23 +23,24 @@ public class PawnLeap extends AbstractMove {
      * Returns a standard move or {@code null} if the move would be invalid.
      *
      * @param board the initial position.
-     * @param start  the start coordinate.
-     * @param end    the end coordinate.
+     * @param start the start coordinate.
+     * @param end   the end coordinate.
      * @return a valid move or {@link Move#INVALID_MOVE}.
      */
     public static Move perform(Tile start, Tile end, Board board) {
-        return isValid(start, end, board) ? new PawnLeap(start, end, board) : INVALID_MOVE;
+        return isValid(start, end, board) ? new PawnLeap(start, end, board) :
+                INVALID_MOVE;
     }
 
     /**
-     * Checks if the pawn move with the given board position is valid. In order to
-     * determine if the given pawn on start has moved or not the row of the start
-     * tile is checked. If that is the case then it is checked if the pawn leaps two
-     * row in its direction. If not the move is {@code false}.
+     * Checks if the pawn move with the given board position is valid. In order
+     * to determine if the given pawn on start has moved or not the row of the
+     * start tile is checked. If that is the case then it is checked if the pawn
+     * leaps two row in its direction. If not the move is {@code false}.
      *
      * @param board the initial board position.
-     * @param start  the start coordinate.
-     * @param end    the end coordinate.
+     * @param start the start coordinate.
+     * @param end   the end coordinate.
      * @return {@code true} if the move is valid.
      */
     public static boolean isValid(Tile start, Tile end, Board board) {
@@ -56,7 +57,8 @@ public class PawnLeap extends AbstractMove {
             int deltaRow = end.row() - start.row();
             int deltaColumn = end.column() - start.column();
 
-            boolean isOnStart = pawnColor == Color.WHITE ? start.row() == 2 : start.row() == 7;
+            boolean isOnStart = pawnColor == Color.WHITE ? start.row() == 2 :
+                    start.row() == 7;
 
             return isOnStart && deltaRow * dir == 2 && deltaColumn == 0;
         } else {

@@ -63,19 +63,20 @@ public class Rochade implements Move {
      * Static factory that returns a valid Rochade move or {@code null} if none
      * can be constructed on the given board from the given start to end tile.
      *
-     * @param start     the start tile of the move.
-     * @param end       the end tile of the move.
-     * @param game the given chronicle of the game.
+     * @param start the start tile of the move.
+     * @param end   the end tile of the move.
+     * @param game  the given chronicle of the game.
      * @return a valid constructed move or {@code null}.
      */
     public static Move perform(Tile start, Tile end, History game) {
-        return isValid(start, end, game) ? new Rochade(start, end, game) : INVALID_MOVE;
+        return isValid(start, end, game) ? new Rochade(start, end, game) :
+                INVALID_MOVE;
     }
 
     /**
-     * A Rochade moves the king two tiles in the direction of the involved rook. The
-     * rook changes sides with the king. In order to perform a successful Rochade
-     * multiple Conditions must be meet.
+     * A Rochade moves the king two tiles in the direction of the involved rook.
+     * The rook changes sides with the king. In order to perform a successful
+     * Rochade multiple Conditions must be meet.
      * <ol>
      * <li>The involved king and rook must be unmoved.</li>
      * <li>The player cannot be in check at the beginning of the Rochade</li>
@@ -102,12 +103,14 @@ public class Rochade implements Move {
         Piece rook = board.get(rookPosition);
 
         // Validity check for pieces
-        if (!(Piece.isKing(king) && Piece.isRook(rook) && king.color() == rook.color())) {
+        if (!(Piece.isKing(king) && Piece.isRook(rook) &&
+                king.color() == rook.color())) {
             return false;
         }
 
         // Check if the path is clear
-        if (Tile.path(start, rookPosition).stream().anyMatch(board::containsKey)) {
+        if (Tile.path(start, rookPosition).stream()
+                .anyMatch(board::containsKey)) {
             return false;
         }
 
@@ -128,7 +131,8 @@ public class Rochade implements Move {
         if (move == null) {
             return false;
         }
-        // If the king is in check on the inBetween tile then the rochade cannot be
+        // If the king is in check on the inBetween tile then the rochade
+        // cannot be
         // performed.
         if (Player.inCheck(move.result(), color)) {
             return false;
@@ -142,15 +146,16 @@ public class Rochade implements Move {
      * coordinates.
      */
     private static Tile getRookPosition(Tile start, Tile end) {
-        return end.column() - start.column() < 0 ? Tile.valueOf(1, start.row()) : Tile.valueOf(8, start.row());
+        return end.column() - start.column() < 0 ?
+                Tile.valueOf(1, start.row()) : Tile.valueOf(8, start.row());
     }
 
     /*
      * Validity check for the given coordinates
      */
     private static boolean validCoordinates(Tile start, Tile end) {
-        return (start == Tile.e1 && (end == Tile.c1 || end == Tile.g1))
-                || (start == Tile.e8 && (end == Tile.c8 || end == Tile.g8));
+        return (start == Tile.e1 && (end == Tile.c1 || end == Tile.g1)) ||
+                (start == Tile.e8 && (end == Tile.c8 || end == Tile.g8));
     }
 
     /**
@@ -187,9 +192,9 @@ public class Rochade implements Move {
 
     /**
      * {@inheritDoc}
-     *
-     * Although two pieces are effectively moved as a result of the move only the
-     * involved king is returned by this method.
+     * <p>
+     * Although two pieces are effectively moved as a result of the move only
+     * the involved king is returned by this method.
      */
     @Override
     public Piece moved() {

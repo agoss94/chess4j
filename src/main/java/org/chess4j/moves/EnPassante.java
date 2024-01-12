@@ -69,7 +69,8 @@ public final class EnPassante implements Move {
      * @return a valid move or {@link Move#INVALID_MOVE}
      */
     public static Move perform(Tile start, Tile end, History chronicle) {
-        return isValid(start, end, chronicle) ? new EnPassante(start, end, chronicle) : INVALID_MOVE;
+        return isValid(start, end, chronicle) ?
+                new EnPassante(start, end, chronicle) : INVALID_MOVE;
     }
 
     /**

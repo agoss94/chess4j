@@ -34,8 +34,8 @@ public class PawnCapture extends AbstractMove {
      * invalid.
      */
     public static Move perform(Tile start, Tile end, Board board) {
-        return isValid(start, end, board) ? new PawnCapture(start, end,
-                board) : INVALID_MOVE;
+        return isValid(start, end, board) ? new PawnCapture(start, end, board) :
+                INVALID_MOVE;
     }
 
     /**
@@ -67,7 +67,8 @@ public class PawnCapture extends AbstractMove {
             int deltaRow = end.row() - start.row();
             int deltaColumn = end.column() - start.column();
 
-            return deltaRow * dir == 1 && Math.abs(deltaColumn) == 1 && Piece.isOpposite(pawn, endPiece);
+            return deltaRow * dir == 1 && Math.abs(deltaColumn) == 1 &&
+                    Piece.isOpposite(pawn, endPiece);
         } else {
             return false;
         }

@@ -10,7 +10,8 @@ import java.util.regex.Pattern;
  */
 public interface ChessGame {
 
-    static final Pattern UCI_FORMAT = Pattern.compile("([a-h][1-8])([a-h][1-8])([bkqr])?");
+    static final Pattern UCI_FORMAT =
+            Pattern.compile("([a-h][1-8])([a-h][1-8])([bkqr])?");
 
 
     /**

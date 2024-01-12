@@ -56,10 +56,12 @@ public final class Knight implements Piece {
         int deltaColumn = end.column() - start.column();
         int deltaRow = end.row() - start.row();
         /*
-         * A Knight moves exactly 3 tiles with the condition that they must not be all
+         * A Knight moves exactly 3 tiles with the condition that they must
+         * not be all
          * in the same direction.
          */
-        return Math.abs(deltaColumn) + Math.abs(deltaRow) == 3 && Math.min(Math.abs(deltaColumn), Math.abs(deltaRow)) > 0;
+        return Math.abs(deltaColumn) + Math.abs(deltaRow) == 3 &&
+                Math.min(Math.abs(deltaColumn), Math.abs(deltaRow)) > 0;
     }
 
     /**

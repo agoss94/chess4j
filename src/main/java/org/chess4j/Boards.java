@@ -14,6 +14,9 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Predicate;
 
+/**
+ * Utilities class for boards.
+ */
 public class Boards {
 
     /*

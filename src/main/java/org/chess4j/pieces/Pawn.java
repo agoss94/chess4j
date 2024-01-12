@@ -89,19 +89,24 @@ public final class Pawn implements Piece {
         Objects.requireNonNull(type);
         switch (type) {
             case BISHOP:
-                promotedPawn = color == Color.WHITE ? Bishop.white() : Bishop.black();
+                promotedPawn =
+                        color == Color.WHITE ? Bishop.white() : Bishop.black();
                 break;
             case KNIGHT:
-                promotedPawn = color == Color.WHITE ? Knight.white() : Knight.black();
+                promotedPawn =
+                        color == Color.WHITE ? Knight.white() : Knight.black();
                 break;
             case QUEEN:
-                promotedPawn = color == Color.WHITE ? Queen.white() : Queen.black();
+                promotedPawn =
+                        color == Color.WHITE ? Queen.white() : Queen.black();
                 break;
             case ROOK:
-                promotedPawn = color == Color.WHITE ? Rook.white() : Rook.black();
+                promotedPawn =
+                        color == Color.WHITE ? Rook.white() : Rook.black();
                 break;
             default:
-                throw new IllegalArgumentException("Cannot promote the pawn to the given type " + type);
+                throw new IllegalArgumentException(
+                        "Cannot promote the pawn to the given type " + type);
         }
     }
 
@@ -126,6 +131,8 @@ public final class Pawn implements Piece {
      */
     @Override
     public String toString() {
-        return promotedPawn == null ? color == Color.WHITE ? "\u2659" : "\u265F" : promotedPawn.toString();
+        return promotedPawn == null ?
+                color == Color.WHITE ? "\u2659" : "\u265F" :
+                promotedPawn.toString();
     }
 }

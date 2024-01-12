@@ -32,14 +32,15 @@ public class PawnMove extends AbstractMove {
      * invalid.
      */
     public static Move perform(Tile start, Tile end, Board board) {
-        return isValid(start, end, board) ? new PawnMove(start, end, board) : INVALID_MOVE;
+        return isValid(start, end, board) ? new PawnMove(start, end, board) :
+                INVALID_MOVE;
     }
 
     /**
-     * Checks if the pawn move with the given game position is valid. A valid pawn
-     * move is a normal move by one tile forward in the only direction the pawn is
-     * allowed to move. A white pawn can move up the board and a black pawn can only
-     * move down.
+     * Checks if the pawn move with the given game position is valid. A valid
+     * pawn move is a normal move by one tile forward in the only direction the
+     * pawn is allowed to move. A white pawn can move up the board and a black
+     * pawn can only move down.
      *
      * @param end   the end coordinate.
      * @param start the start coordinate.
@@ -47,7 +48,8 @@ public class PawnMove extends AbstractMove {
      * @return {@code true} if the move is valid.
      */
     public static boolean isValid(Tile start, Tile end, Board board) {
-        // If there is no piece on start then the move is invalid. Also, there must not
+        // If there is no piece on start then the move is invalid. Also,
+        // there must not
         // be a piece on the end position.
         if (board.containsKey(end)) {
             return false;

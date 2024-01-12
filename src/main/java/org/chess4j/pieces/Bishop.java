@@ -57,7 +57,8 @@ public final class Bishop implements Piece {
         int deltaColumn = end.column() - start.column();
         int deltaRow = end.row() - start.row();
         /*
-         * A diagonal has the same difference in row numbers as in column numbers.
+         * A diagonal has the same difference in row numbers as in column
+         * numbers.
          */
         return Math.abs(deltaColumn) == Math.abs(deltaRow);
     }
