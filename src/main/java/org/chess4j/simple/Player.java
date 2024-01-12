@@ -123,14 +123,14 @@ public class Player {
         Board current = chronicle.current();
         Piece piece = current.get(start);
         if (isNull(piece)) {
-            throw new InvalidMoveException("There is no piece on start.");
+            throw new InvalidMoveException(String.format("There is no piece on %s", start));
         }
         if (piece.color() != color) {
-            throw new InvalidMoveException("The player cannot move a piece of the opposite color.");
+            throw new InvalidMoveException("The player cannot move a piece of the opposite color");
         }
         Move move = createMove(chronicle, start, end);
         if (move == INVALID_MOVE) {
-            throw new InvalidMoveException("The move is invalid for the given piece.");
+            throw new InvalidMoveException("The move is invalid for the given piece");
         }
         if (inCheck(move.result(), color)) {
             throw new InvalidMoveException("Cannot move the piece. The player is in check!");
