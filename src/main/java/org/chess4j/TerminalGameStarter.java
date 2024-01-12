@@ -8,11 +8,12 @@ import java.util.Scanner;
 public class TerminalGameStarter {
 
     public static void main(String[] args) {
-        SimpleGame game = new SimpleGame();
+        ChessGame game = new SimpleGame();
         Scanner scanner = new Scanner(System.in);
 
         while (!game.isGameOver()) {
             Boards.print(game.getBoardPosition());
+            System.out.println(game.getStatus());
 
             System.out.println("Enter move (e.g., e2e4): ");
             String move = scanner.nextLine();
@@ -24,8 +25,9 @@ public class TerminalGameStarter {
             }
         }
 
-
-        System.out.println("Game over.");
+        Boards.print(game.getBoardPosition());
+        System.out.println("Game over:");
+        System.out.println(game.getStatus());
         scanner.close();
     }
 }
