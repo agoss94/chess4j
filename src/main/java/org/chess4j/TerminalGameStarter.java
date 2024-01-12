@@ -19,11 +19,9 @@ public class TerminalGameStarter {
 
             try {
                 game.move(move);
-            } catch (InvalidMoveException e) {
-                System.out.println("Invalid move. Try again.");
+            } catch (InvalidMoveException | IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
-
-            Boards.print(game.getBoardPosition());
         }
 
 
