@@ -8,7 +8,6 @@ import org.chess4j.pieces.Queen;
 import org.chess4j.pieces.Rook;
 import org.chess4j.simple.EnumMapBoard;
 
-import javax.xml.stream.XMLEventWriter;
 import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Iterator;
@@ -16,6 +15,16 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 public class Boards {
+
+    /*
+     * Column declaration for printing the board.
+     */
+    private static final String COLUMN_DECLARATION = "\t A\t B\t C\t D\t E\t F\t G\t H";
+
+    /*
+     * New line character
+     */
+    private static final String NEW_LINE = String.format("%n");
 
     /**
      * Returns a filtered view of the board, where only the pieces remain, that
@@ -101,6 +110,31 @@ public class Boards {
         position.put(Tile.h7, Pawn.black());
 
         return position;
+    }
+
+    public static void print(Board board) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(COLUMN_DECLARATION);
+        sb.append(NEW_LINE);
+        sb.append(NEW_LINE);
+        for (Tile tile : Tile.values()) {
+            if (tile.column() == 1) {
+                sb.append(String.format("%d\t", tile.row()));
+            }
+            if (board.containsKey(tile)) {
+                sb.append(String.format("[%s]\t", board.get(tile)));
+            } else {
+                sb.append("[ ]\t");
+            }
+            if (tile.column() == 8) {
+                sb.append(String.format(" %d", tile.row()));
+                sb.append(NEW_LINE);
+                sb.append(NEW_LINE);
+            }
+        }
+        sb.append(COLUMN_DECLARATION);
+
+        System.out.println(sb.toString());
     }
 
     /**
