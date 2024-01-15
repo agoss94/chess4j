@@ -6,7 +6,7 @@ import org.chess4j.moves.PawnMove;
 import org.chess4j.pieces.Pawn;
 import org.chess4j.pieces.Rook;
 import org.chess4j.simple.EnumMapBoard;
-import org.chess4j.simple.History;
+import org.chess4j.simple.SimpleHistory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -69,8 +69,8 @@ class PawnMoveTest {
     void pawnMustCapture() {
         Board board = new EnumMapBoard();
         board.put(Tile.e2, Pawn.white());
-        History game = new History(board);
-        assertFalse(PawnCapture.isValid(Tile.e2, Tile.d3, game.current()));
+        History game = new SimpleHistory(board);
+        assertFalse(PawnCapture.isValid(Tile.e2, Tile.d3, game.currentPosition()));
     }
 
     @Test
@@ -78,8 +78,8 @@ class PawnMoveTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e2, Pawn.white());
         board.put(Tile.d3, Rook.black());
-        History game = new History(board);
-        assertTrue(PawnCapture.isValid(Tile.e2, Tile.d3, game.current()));
+        History game = new SimpleHistory(board);
+        assertTrue(PawnCapture.isValid(Tile.e2, Tile.d3, game.currentPosition()));
     }
 
     @Test
@@ -87,7 +87,7 @@ class PawnMoveTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e7, Pawn.black());
         board.put(Tile.d6, Rook.white());
-        History game = new History(board);
-        assertTrue(PawnCapture.isValid(Tile.e7, Tile.d6, game.current()));
+        SimpleHistory game = new SimpleHistory(board);
+        assertTrue(PawnCapture.isValid(Tile.e7, Tile.d6, game.currentPosition()));
     }
 }

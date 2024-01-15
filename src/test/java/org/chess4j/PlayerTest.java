@@ -8,8 +8,8 @@ import org.chess4j.pieces.Pawn;
 import org.chess4j.pieces.Queen;
 import org.chess4j.pieces.Rook;
 import org.chess4j.simple.EnumMapBoard;
-import org.chess4j.simple.History;
 import org.chess4j.simple.Player;
+import org.chess4j.simple.SimpleHistory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +21,7 @@ class PlayerTest {
 
 	@Test
 	void isValidPlayer() {
-		History game = new History(Boards.newGame());
+		History game = new SimpleHistory(Boards.newGame());
 		Player white = Player.white(game);
 		assertTrue(white.isValid(Tile.e2, Tile.e3));
 		assertTrue(white.isValid(Tile.b1, Tile.c3));
@@ -29,17 +29,17 @@ class PlayerTest {
 
 	@Test
 	void movePlayer() {
-		History game = new History(Boards.newGame());
+		History game = new SimpleHistory(Boards.newGame());
 		Player white = Player.white(game);
 		assertTrue(white.isValid(Tile.e2, Tile.e3));
 		assertTrue(white.isValid(Tile.b1, Tile.c3));
 		white.move(Tile.e2, Tile.e3);
-		assertEquals(1, game.size());
+		assertEquals(1, game.turnNumber());
 	}
 
 	@Test
 	void inCheck() {
-		History game = new History(Boards.newGame());
+		History game = new SimpleHistory(Boards.newGame());
 		Player white = Player.white(game);
 		Player black = Player.black(game);
 		white.move(Tile.e2, Tile.e3);
@@ -91,7 +91,7 @@ class PlayerTest {
 		board.put(Tile.g7, Pawn.black());
 		board.put(Tile.h7, Pawn.black());
 
-		History game = new History(board);
+		History game = new SimpleHistory(board);
 		Player white = Player.white(game);
 		Player black = Player.black(game);
 		assertTrue(white.isCheckmate());
@@ -105,7 +105,7 @@ class PlayerTest {
 		board.put(Tile.b3, King.black());
 		board.put(Tile.a1, King.white());
 
-		History game = new History(board);
+		History game = new SimpleHistory(board);
 		Player white = Player.white(game);
 		Player black = Player.black(game);
 		assertFalse(white.isCheckmate());
@@ -115,9 +115,9 @@ class PlayerTest {
 
 	@Test
 	void mustResolveCheck() {
-		History History = new History(Boards.newGame());
-		Player white = Player.white(History);
-		Player black = Player.black(History);
+		History SimpleHistory = new SimpleHistory(Boards.newGame());
+		Player white = Player.white(SimpleHistory);
+		Player black = Player.black(SimpleHistory);
 		white.move(Tile.e2, Tile.e4);
 		black.move(Tile.e7, Tile.e5);
 		white.move(Tile.b1, Tile.c3);
@@ -134,9 +134,9 @@ class PlayerTest {
 
 	@Test
 	void enPassanteMove() {
-		History History = new History(Boards.newGame());
-		Player white = Player.white(History);
-		Player black = Player.black(History);
+		History SimpleHistory = new SimpleHistory(Boards.newGame());
+		Player white = Player.white(SimpleHistory);
+		Player black = Player.black(SimpleHistory);
 		white.move(Tile.f2, Tile.f4);
 		black.move(Tile.e7, Tile.e5);
 		white.move(Tile.f4, Tile.e5);

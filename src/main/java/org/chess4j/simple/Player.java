@@ -3,6 +3,7 @@ package org.chess4j.simple;
 import org.chess4j.Board;
 import org.chess4j.Boards;
 import org.chess4j.Color;
+import org.chess4j.History;
 import org.chess4j.moves.Move;
 import org.chess4j.Piece;
 import org.chess4j.Tile;
@@ -120,7 +121,7 @@ public class Player {
      *                              move.
      */
     public void move(Tile start, Tile end) throws InvalidMoveException {
-        Board current = chronicle.current();
+        Board current = chronicle.currentPosition();
         Piece piece = current.get(start);
         if (isNull(piece)) {
             throw new InvalidMoveException(String.format("There is no piece on %s", start));
@@ -149,7 +150,7 @@ public class Player {
      * @return a valid move or {@code null} if none can be created.
      */
     private static Move createMove(History chronicle, Tile start, Tile end) {
-        Board current = chronicle.current();
+        Board current = chronicle.currentPosition();
         Piece piece = current.get(start);
 
         // First try a simple move.
@@ -185,7 +186,7 @@ public class Player {
      *         otherwise.
      */
     public boolean inCheck() {
-        return inCheck(chronicle.current(), color);
+        return inCheck(chronicle.currentPosition(), color);
     }
 
     /**
@@ -232,7 +233,7 @@ public class Player {
      *         otherwise.
      */
     private boolean isMate() {
-        Board pieces = Boards.filter(chronicle.current(), Piece.isOfColor(color));
+        Board pieces = Boards.filter(chronicle.currentPosition(), Piece.isOfColor(color));
         for (Tile piecePosition : pieces.keySet()) {
             if (canMove(piecePosition)) {
                 return false;

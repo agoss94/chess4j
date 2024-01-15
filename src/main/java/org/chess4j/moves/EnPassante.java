@@ -3,10 +3,10 @@ package org.chess4j.moves;
 import org.chess4j.Board;
 import org.chess4j.Boards;
 import org.chess4j.Color;
+import org.chess4j.History;
 import org.chess4j.Piece;
 import org.chess4j.Tile;
 import org.chess4j.simple.EnumMapBoard;
-import org.chess4j.simple.History;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -50,9 +50,9 @@ public final class EnPassante implements Move {
     private EnPassante(Tile start, Tile end, History chronical) {
         this.start = Objects.requireNonNull(start);
         this.end = Objects.requireNonNull(end);
-        Board initial = chronical.current();
+        Board initial = chronical.currentPosition();
         this.initial = Objects.requireNonNull(new EnumMapBoard(initial));
-        Board board = setUpBoard(chronical.get(chronical.size() - 1));
+        Board board = setUpBoard(chronical.get(chronical.turnNumber() - 1));
         this.captured = Optional.of(board.get(end));
         board.put(end, board.remove(start));
         this.result = Objects.requireNonNull(board);
@@ -87,7 +87,7 @@ public final class EnPassante implements Move {
         if (chronicle.isEmpty()) {
             return false;
         }
-        Move lastMove = chronicle.get(chronicle.size() - 1);
+        Move lastMove = chronicle.get(chronicle.turnNumber() - 1);
         if (lastMove instanceof PawnLeap) {
             Board board = setUpBoard(lastMove);
             return PawnCapture.isValid(start, end, board);

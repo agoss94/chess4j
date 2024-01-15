@@ -2,15 +2,15 @@ package org.chess4j.simple;
 
 import org.chess4j.Board;
 import org.chess4j.Boards;
+import org.chess4j.History;
 import org.chess4j.moves.Move;
 import org.chess4j.Piece;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class History {
+public class SimpleHistory implements History {
 
     /**
      * Internal list that holds all added moves that is forwarded.
@@ -27,7 +27,7 @@ public class History {
      *
      * @param initial the initial position of the board.
      */
-    public History(Board initial) {
+    public SimpleHistory(Board initial) {
         chronicle = new ArrayList<>();
         this.initial = Boards.copy(initial);
     }
@@ -38,7 +38,7 @@ public class History {
      *
      * @param history the given history.
      */
-    public History(List<? extends Move> history) {
+    public SimpleHistory(List<? extends Move> history) {
         Objects.requireNonNull(history);
         if (history.isEmpty()) {
             throw new IllegalArgumentException("History cannot be empty.");
@@ -56,9 +56,10 @@ public class History {
      *                               not match the end position of the previous
      *                               move.
      */
+    @Override
     public void add(Move element) {
         Objects.requireNonNull(element);
-        if (current().equals(element.initial())) {
+        if (currentPosition().equals(element.initial())) {
             chronicle.add(element);
         } else {
             throw new IllegalArgumentException("The initial board position of" +
@@ -77,7 +78,7 @@ public class History {
     /**
      * {@inheritDoc}
      */
-    public int size() {
+    public int turnNumber() {
         return chronicle.size();
     }
 
@@ -87,8 +88,8 @@ public class History {
      *
      * @return the current position of the game.
      */
-    public Board current() {
-        return chronicle.isEmpty() ? initial : get(size() - 1).result();
+    public Board currentPosition() {
+        return chronicle.isEmpty() ? initial : get(turnNumber() - 1).result();
     }
 
     /**
@@ -121,9 +122,9 @@ public class History {
 
     /**
      * Reverts the last move of the game. Returns the reverted Move or null if
-     * none is revertable.
+     * none is present.
      */
     public Move revert() {
-        return isEmpty() ? null : chronicle.remove(size() - 1);
+        return isEmpty() ? null : chronicle.remove(turnNumber() - 1);
     }
 }

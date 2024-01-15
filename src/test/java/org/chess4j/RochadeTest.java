@@ -6,7 +6,7 @@ import org.chess4j.pieces.King;
 import org.chess4j.pieces.Knight;
 import org.chess4j.pieces.Rook;
 import org.chess4j.simple.EnumMapBoard;
-import org.chess4j.simple.History;
+import org.chess4j.simple.SimpleHistory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,8 +19,8 @@ class RochadeTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e1, King.white());
         board.put(Tile.h1, Rook.white());
-        History History = new History(board);
-        assertFalse(Rochade.isValid(Tile.e1, Tile.h1, History));
+        History history = new SimpleHistory(board);
+        assertFalse(Rochade.isValid(Tile.e1, Tile.h1, history));
     }
 
     @Test
@@ -28,8 +28,8 @@ class RochadeTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e1, King.white());
         board.put(Tile.h1, Rook.black());
-        History History = new History(board);
-        assertFalse(Rochade.isValid(Tile.e1, Tile.g1, History));
+        History history = new SimpleHistory(board);
+        assertFalse(Rochade.isValid(Tile.e1, Tile.g1, history));
     }
 
     @Test
@@ -37,8 +37,8 @@ class RochadeTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e1, King.white());
         board.put(Tile.h1, Rook.white());
-        History History = new History(board);
-        assertTrue(Rochade.isValid(Tile.e1, Tile.g1, History));
+        History history = new SimpleHistory(board);
+        assertTrue(Rochade.isValid(Tile.e1, Tile.g1, history));
     }
 
     @Test
@@ -46,8 +46,8 @@ class RochadeTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e8, King.white());
         board.put(Tile.h8, Rook.white());
-        History History = new History(board);
-        assertTrue(Rochade.isValid(Tile.e8, Tile.g8, History));
+        History history = new SimpleHistory(board);
+        assertTrue(Rochade.isValid(Tile.e8, Tile.g8, history));
     }
 
     @Test
@@ -55,8 +55,8 @@ class RochadeTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e1, King.white());
         board.put(Tile.a1, Rook.white());
-        History History = new History(board);
-        assertTrue(Rochade.isValid(Tile.e1, Tile.c1, History));
+        History history = new SimpleHistory(board);
+        assertTrue(Rochade.isValid(Tile.e1, Tile.c1, history));
     }
 
     @Test
@@ -64,8 +64,8 @@ class RochadeTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e8, King.white());
         board.put(Tile.a8, Rook.white());
-        History History = new History(board);
-        assertTrue(Rochade.isValid(Tile.e8, Tile.c8, History));
+        History history = new SimpleHistory(board);
+        assertTrue(Rochade.isValid(Tile.e8, Tile.c8, history));
     }
 
     @Test
@@ -74,8 +74,8 @@ class RochadeTest {
         board.put(Tile.e1, King.white());
         board.put(Tile.a1, Rook.white());
         board.put(Tile.d8, Rook.black());
-        History History = new History(board);
-        assertFalse(Rochade.isValid(Tile.e1, Tile.c1, History));
+        History history = new SimpleHistory(board);
+        assertFalse(Rochade.isValid(Tile.e1, Tile.c1, history));
     }
 
     @Test
@@ -83,10 +83,10 @@ class RochadeTest {
         Board board = new EnumMapBoard();
         board.put(Tile.e1, King.white());
         board.put(Tile.a1, Rook.white());
-        History History = new History(board);
-        History.add(NormalMove.perform(Tile.a1, Tile.a3, History.current()));
-        History.add(NormalMove.perform(Tile.a3, Tile.a1, History.current()));
-        assertFalse(Rochade.isValid(Tile.e1, Tile.c1, History));
+        History history = new SimpleHistory(board);
+        history.add(NormalMove.perform(Tile.a1, Tile.a3, history.currentPosition()));
+        history.add(NormalMove.perform(Tile.a3, Tile.a1, history.currentPosition()));
+        assertFalse(Rochade.isValid(Tile.e1, Tile.c1, history));
     }
 
     @Test
@@ -95,7 +95,7 @@ class RochadeTest {
         board.put(Tile.e1, King.white());
         board.put(Tile.a1, Rook.white());
         board.put(Tile.b1, Knight.white());
-        History History = new History(board);
-        assertFalse(Rochade.isValid(Tile.e1, Tile.c1, History));
+        History history = new SimpleHistory(board);
+        assertFalse(Rochade.isValid(Tile.e1, Tile.c1, history));
     }
 }

@@ -3,10 +3,11 @@ package org.chess4j.moves;
 import org.chess4j.Board;
 import org.chess4j.Boards;
 import org.chess4j.Color;
+import org.chess4j.History;
 import org.chess4j.Piece;
 import org.chess4j.Tile;
 import org.chess4j.simple.EnumMapBoard;
-import org.chess4j.simple.History;
+import org.chess4j.simple.SimpleHistory;
 import org.chess4j.simple.Player;
 
 /**
@@ -50,7 +51,7 @@ public class Rochade implements Move {
     private Rochade(Tile start, Tile end, History chronicle) {
         this.start = start;
         this.end = end;
-        this.initial = chronicle.current();
+        this.initial = chronicle.currentPosition();
         Board result = new EnumMapBoard(initial);
         Piece rook = result.remove(getRookPosition(start, end));
         Tile inBeetween = Tile.path(start, end).stream().findFirst().get();
@@ -97,7 +98,7 @@ public class Rochade implements Move {
         }
 
         // Get the board and relevant pieces.
-        Board board = chronicle.current();
+        Board board = chronicle.currentPosition();
         Piece king = board.get(start);
         Tile rookPosition = getRookPosition(start, end);
         Piece rook = board.get(rookPosition);
