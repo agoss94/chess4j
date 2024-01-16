@@ -63,7 +63,19 @@ public interface ChessGame {
      */
     Status getStatus();
 
+    /**
+     * Returns {@code true} if the game is over.
+     *
+     * @return {@code true} if the game is over.
+     */
     boolean isGameOver();
+
+    /**
+     * Return an unmodifiable view of the game history.
+     *
+     * @return an unmodifiable view of the game history.
+     */
+    History getHistory();
 
     /**
      * This enum represents the status any given game can have.

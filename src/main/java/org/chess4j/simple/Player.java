@@ -4,7 +4,7 @@ import org.chess4j.Board;
 import org.chess4j.Boards;
 import org.chess4j.Color;
 import org.chess4j.History;
-import org.chess4j.moves.Move;
+import org.chess4j.Move;
 import org.chess4j.Piece;
 import org.chess4j.Tile;
 import org.chess4j.exceptions.InvalidMoveException;
@@ -18,7 +18,7 @@ import org.chess4j.moves.Rochade;
 import java.util.Objects;
 
 import static java.util.Objects.isNull;
-import static org.chess4j.moves.Move.INVALID_MOVE;
+import static org.chess4j.Move.INVALID_MOVE;
 import static org.chess4j.Piece.isKing;
 import static org.chess4j.Piece.isPawn;
 

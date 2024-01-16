@@ -1,6 +1,6 @@
 package org.chess4j;
 
-import org.chess4j.moves.Move;
+import java.util.List;
 
 public interface History {
 
@@ -29,7 +29,7 @@ public interface History {
      *
      * @return the current position of the game.
      */
-     Board currentPosition();
+    Board currentPosition();
 
     /**
      * Returns the number of moves played.
@@ -43,12 +43,12 @@ public interface History {
      *
      * @return {@code true} if no move has been played yet.
      */
-     boolean isEmpty();
+    boolean isEmpty();
 
     /**
      * Clears the history.
      */
-     void clear();
+    void clear();
 
     /**
      * Returns {@code true} if the piece has been moved {@code false}
@@ -57,11 +57,20 @@ public interface History {
      * @param piece the given piece.
      * @return {@code true} if the piece has been moved {@code false} otherwise.
      */
-     boolean hasBeenMoved(Piece piece);
+    boolean hasBeenMoved(Piece piece);
 
     /**
      * Reverts the last move of the game. Returns the reverted Move or null if
      * none is present.
      */
-    public Move revert();
+    Move revert();
+
+    /**
+     * Returns this history as an unmodifiable view.
+     *
+     * @return this history as an unmodifiable view.
+     */
+    History view();
+
+
 }

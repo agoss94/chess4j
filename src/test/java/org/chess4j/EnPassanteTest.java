@@ -1,7 +1,6 @@
 package org.chess4j;
 
 import org.chess4j.moves.EnPassante;
-import org.chess4j.moves.Move;
 import org.chess4j.moves.NormalMove;
 import org.chess4j.moves.PawnLeap;
 import org.chess4j.pieces.Bishop;

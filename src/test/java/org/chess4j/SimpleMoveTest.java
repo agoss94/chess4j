@@ -1,6 +1,5 @@
 package org.chess4j;
 
-import org.chess4j.moves.Move;
 import org.chess4j.moves.NormalMove;
 import org.chess4j.pieces.Rook;
 import org.chess4j.simple.EnumMapBoard;

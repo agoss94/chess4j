@@ -2,6 +2,7 @@ package org.chess4j.moves;
 
 import org.chess4j.Board;
 import org.chess4j.Color;
+import org.chess4j.Move;
 import org.chess4j.Piece;
 import org.chess4j.Tile;
 

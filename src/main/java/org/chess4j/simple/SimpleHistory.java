@@ -3,10 +3,12 @@ package org.chess4j.simple;
 import org.chess4j.Board;
 import org.chess4j.Boards;
 import org.chess4j.History;
-import org.chess4j.moves.Move;
+import org.chess4j.Move;
 import org.chess4j.Piece;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,7 +17,7 @@ public class SimpleHistory implements History {
     /**
      * Internal list that holds all added moves that is forwarded.
      */
-    private final List<Move> chronicle;
+    private final List<Move> history;
 
     /**
      * The initial position at the start of the game.
@@ -28,7 +30,7 @@ public class SimpleHistory implements History {
      * @param initial the initial position of the board.
      */
     public SimpleHistory(Board initial) {
-        chronicle = new ArrayList<>();
+        history = new ArrayList<>();
         this.initial = Boards.copy(initial);
     }
 
@@ -38,13 +40,10 @@ public class SimpleHistory implements History {
      *
      * @param history the given history.
      */
-    public SimpleHistory(List<? extends Move> history) {
+    private SimpleHistory(List<? extends Move> history, Board initial) {
         Objects.requireNonNull(history);
-        if (history.isEmpty()) {
-            throw new IllegalArgumentException("History cannot be empty.");
-        }
-        this.chronicle = new ArrayList<>(history);
-        this.initial = Boards.copy(history.get(0).initial());
+        this.history = Collections.unmodifiableList(history);
+        this.initial = Boards.copy(initial);
     }
 
     /**
@@ -59,8 +58,12 @@ public class SimpleHistory implements History {
     @Override
     public void add(Move element) {
         Objects.requireNonNull(element);
+        if (element == Move.INVALID_MOVE) {
+            throw new IllegalArgumentException("Cannot add an invalid move.");
+        }
+
         if (currentPosition().equals(element.initial())) {
-            chronicle.add(element);
+            history.add(element);
         } else {
             throw new IllegalArgumentException("The initial board position of" +
                     " the move does not match the current board position of " +
@@ -72,14 +75,14 @@ public class SimpleHistory implements History {
      * {@inheritDoc}
      */
     public Move get(int index) {
-        return chronicle.get(index);
+        return history.get(index);
     }
 
     /**
      * {@inheritDoc}
      */
     public int turnNumber() {
-        return chronicle.size();
+        return history.size();
     }
 
     /**
@@ -89,7 +92,7 @@ public class SimpleHistory implements History {
      * @return the current position of the game.
      */
     public Board currentPosition() {
-        return chronicle.isEmpty() ? initial : get(turnNumber() - 1).result();
+        return history.isEmpty() ? initial : get(turnNumber() - 1).result();
     }
 
     /**
@@ -98,14 +101,14 @@ public class SimpleHistory implements History {
      * @return {@code true} if no move has been played yet.
      */
     public boolean isEmpty() {
-        return chronicle.isEmpty();
+        return history.isEmpty();
     }
 
     /**
      * Clears the history.
      */
     public void clear() {
-        chronicle.clear();
+        history.clear();
     }
 
     /**
@@ -117,7 +120,7 @@ public class SimpleHistory implements History {
      */
     public boolean hasBeenMoved(Piece piece) {
         Objects.requireNonNull(piece);
-        return chronicle.stream().anyMatch(m -> m.moved().equals(piece));
+        return history.stream().anyMatch(m -> m.moved().equals(piece));
     }
 
     /**
@@ -125,6 +128,11 @@ public class SimpleHistory implements History {
      * none is present.
      */
     public Move revert() {
-        return isEmpty() ? null : chronicle.remove(turnNumber() - 1);
+        return isEmpty() ? null : history.remove(turnNumber() - 1);
+    }
+
+    @Override
+    public History view() {
+        return new SimpleHistory(history, initial);
     }
 }

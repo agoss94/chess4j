@@ -8,9 +8,10 @@ import org.chess4j.History;
 import org.chess4j.Piece;
 import org.chess4j.Tile;
 import org.chess4j.exceptions.InvalidMoveException;
-import org.chess4j.moves.Move;
+import org.chess4j.Move;
 import org.chess4j.pieces.Pawn;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Map;
@@ -25,16 +26,16 @@ import static org.chess4j.Piece.isRook;
 public class SimpleGame implements ChessGame {
 
 
-    private final History simpleHistory;
+    private final History history;
     private final Player white;
     private final Player black;
 
     private Status status;
 
     public SimpleGame() {
-        this.simpleHistory = new SimpleHistory(Boards.newGame());
-        this.white = Player.white(simpleHistory);
-        this.black = Player.black(simpleHistory);
+        this.history = new SimpleHistory(Boards.newGame());
+        this.white = Player.white(history);
+        this.black = Player.black(history);
         this.status = Status.WHITE_PLAYER_TURN;
     }
 
@@ -44,13 +45,18 @@ public class SimpleGame implements ChessGame {
 
     @Override
     public void newGame() {
-        simpleHistory.clear();
+        history.clear();
         this.status = Status.WHITE_PLAYER_TURN;
     }
 
     @Override
     public Board getBoardPosition() {
-        return simpleHistory.currentPosition();
+        return history.currentPosition();
+    }
+
+    @Override
+    public History getHistory() {
+        return history.view();
     }
 
     @Override
@@ -112,12 +118,12 @@ public class SimpleGame implements ChessGame {
      * {@inheritDoc}
      */
     private boolean isThreefoldRepetition() {
-        if (simpleHistory.turnNumber() < 8) {
+        if (history.turnNumber() < 8) {
             return false;
         } else {
-            Board current = simpleHistory.currentPosition();
-            Board before = simpleHistory.get(simpleHistory.turnNumber() - 4).initial();
-            Board beforeBefore = simpleHistory.get(simpleHistory.turnNumber() - 8).initial();
+            Board current = history.currentPosition();
+            Board before = history.get(history.turnNumber() - 4).initial();
+            Board beforeBefore = history.get(history.turnNumber() - 8).initial();
             return current.equals(before) && before.equals(beforeBefore);
         }
     }
@@ -126,11 +132,11 @@ public class SimpleGame implements ChessGame {
      * {@inheritDoc}
      */
     private boolean isFiftyMoveRule() {
-        if (simpleHistory.turnNumber() < 100) {
+        if (history.turnNumber() < 100) {
             return false;
         }
         for (int i = 0; i < 100; i++) {
-            Move move = simpleHistory.get(simpleHistory.turnNumber() - (i + 1));
+            Move move = history.get(history.turnNumber() - (i + 1));
             if (move.captured().isPresent()) {
                 return false;
             }
@@ -237,13 +243,13 @@ public class SimpleGame implements ChessGame {
 
     @Override
     public void revert() {
-        simpleHistory.revert();
+        history.revert();
         updateStatus();
     }
 
     @Override
     public int turnNumber() {
-        return simpleHistory.turnNumber();
+        return history.turnNumber();
     }
 
     @Override

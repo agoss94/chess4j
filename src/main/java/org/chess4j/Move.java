@@ -1,8 +1,5 @@
-package org.chess4j.moves;
+package org.chess4j;
 
-import org.chess4j.Board;
-import org.chess4j.Piece;
-import org.chess4j.Tile;
 import org.chess4j.exceptions.InvalidMoveException;
 
 import java.util.Optional;
@@ -17,32 +14,6 @@ import java.util.Optional;
  * methods.
  */
 public interface Move {
-
-    /**
-     * A singelton for an invalid move, which throws an invalid move exception
-     * for every method called.
-     */
-    static final Move INVALID_MOVE = new Move() {
-        @Override
-        public Tile start() {
-            throw new InvalidMoveException();
-        }
-
-        @Override
-        public Tile end() {
-            throw new InvalidMoveException();
-        }
-
-        @Override
-        public Board initial() {
-            throw new InvalidMoveException();
-        }
-
-        @Override
-        public Board result() {
-            throw new InvalidMoveException();
-        }
-    };
 
     /**
      * The start and the end coordinates of the moved piece.
@@ -90,5 +61,31 @@ public interface Move {
     default Optional<Piece> captured() {
         return Optional.ofNullable(initial().get(end()));
     }
+
+    /**
+     * A singelton for an invalid move, which throws an invalid move exception
+     * for every method called.
+     */
+    Move INVALID_MOVE = new Move() {
+        @Override
+        public Tile start() {
+            throw new InvalidMoveException();
+        }
+
+        @Override
+        public Tile end() {
+            throw new InvalidMoveException();
+        }
+
+        @Override
+        public Board initial() {
+            throw new InvalidMoveException();
+        }
+
+        @Override
+        public Board result() {
+            throw new InvalidMoveException();
+        }
+    };
 
 }

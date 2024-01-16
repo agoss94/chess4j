@@ -1,6 +1,5 @@
 package org.chess4j;
 
-import org.chess4j.moves.Move;
 import org.chess4j.moves.PawnCapture;
 import org.chess4j.moves.PawnMove;
 import org.chess4j.pieces.Pawn;

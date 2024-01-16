@@ -2,6 +2,7 @@ package org.chess4j.moves;
 
 import org.chess4j.Board;
 import org.chess4j.Boards;
+import org.chess4j.Move;
 import org.chess4j.Tile;
 import org.chess4j.simple.EnumMapBoard;
 

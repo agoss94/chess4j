@@ -4,6 +4,7 @@ import org.chess4j.Board;
 import org.chess4j.Boards;
 import org.chess4j.Color;
 import org.chess4j.History;
+import org.chess4j.Move;
 import org.chess4j.Piece;
 import org.chess4j.Tile;
 import org.chess4j.simple.EnumMapBoard;
